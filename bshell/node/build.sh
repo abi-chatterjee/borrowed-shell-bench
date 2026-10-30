@@ -15,7 +15,7 @@ build_tarball() {
     mkdir -p "$stage"
     cp -R "$ROOT/bshell/node/package.json" "$ROOT/bshell/node/README.md" "$ROOT/bshell/node/bin" "$ROOT/bshell/node/src" "$stage/"
     "$PYTHON" "$ROOT/scripts/stage_frontend.py" bshell-node "$stage/frontend" >/dev/null
-    cp "$ROOT/assets/icons/icon.icns" "$ROOT/assets/icons/icon.ico" "$stage/"
+    cp "$ROOT/assets/icons/icon.icns" "$ROOT/assets/icons/icon.ico" "$ROOT/assets/icons/icon-64.rgba" "$stage/"
     printf "'use strict';\nmodule.exports = { version: '%s' };\n" "$ver" >"$stage/src/version.js"
     (cd "$stage" && npm version "$ver" --no-git-tag-version --allow-same-version >/dev/null && npm pack --pack-destination "$OUT" --silent >/dev/null)
 }

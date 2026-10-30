@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": false,
   "bin": { "benchnotes": "bin/benchnotes.js" },
-  "files": ["bin", "src", "frontend", "icon.icns", "icon.ico", "README.md"],
+  "files": ["bin", "src", "frontend", "icon.icns", "icon.ico", "icon-64.rgba", "README.md"],
   "engines": { "node": ">=24" },
   "dependencies": {
     "@webviewjs/webview": "0.4.9"

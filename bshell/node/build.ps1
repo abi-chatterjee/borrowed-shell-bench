@@ -18,6 +18,7 @@ function Build-Tarball {
     Invoke-Checked $Python @((Join-Path $Root 'scripts\stage_frontend.py'), 'bshell-node', (Join-Path $stage 'frontend'))
     Copy-Item (Join-Path $Root 'assets\icons\icon.icns') $stage
     Copy-Item (Join-Path $Root 'assets\icons\icon.ico') $stage
+    Copy-Item (Join-Path $Root 'assets\icons\icon-64.rgba') $stage
     $js = 'module.exports = { version: ''' + $Ver + ''' };'
     Set-Content -Path (Join-Path $stage 'src\version.js') -Value $js -Encoding Ascii
     Push-Location $stage

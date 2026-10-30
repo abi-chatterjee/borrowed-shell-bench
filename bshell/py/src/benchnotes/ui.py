@@ -4,6 +4,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 from . import winpreflight
 from ._version import __version__
@@ -17,6 +18,15 @@ BACKEND_MODULE = {
 # Force the real web view per OS so pywebview can never fall back to a legacy
 # engine or a browser silently. None = let pywebview choose (Linux: GTK or Qt).
 FORCED_GUI = {"darwin": "cocoa", "win32": "edgechromium"}
+
+
+def window_icon():
+    """Windows: the window and taskbar show the icon pywebview is given, else pythonw.exe's.
+    macOS takes it from the .app bundle, so nothing is passed there."""
+    if sys.platform != "win32":
+        return None
+    icon = Path(__file__).with_name("icon.ico")
+    return str(icon) if icon.is_file() else None
 
 
 def frontend_dir():
@@ -103,7 +113,7 @@ def run(variant):
             print("server did not start", file=sys.stderr)
             return 1
         webview.create_window("Bench Notes", f"{srv.url}/#token={srv.token}", width=960, height=640)
-        webview.start(gui=FORCED_GUI.get(sys.platform))
+        webview.start(gui=FORCED_GUI.get(sys.platform), icon=window_icon())
     finally:
         srv.shutdown()
     return 0

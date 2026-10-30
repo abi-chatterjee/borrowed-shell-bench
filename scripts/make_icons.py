@@ -2,7 +2,8 @@
 """Generate the shared Bench Notes icon set with the standard library only.
 
 Output (assets/icons): icon.png (512), 32x32.png, 128x128.png, 128x128@2x.png,
-icon.icns (PNG-compressed icns), icon.ico (PNG-compressed ico).
+icon.icns (PNG-compressed icns), icon.ico (PNG-compressed ico), icon-64.rgba (raw
+pixels for the Node window icon).
 The generated files are committed; re-run only if the design changes.
 """
 import struct
@@ -88,6 +89,8 @@ def main():
     (out / "128x128@2x.png").write_bytes(pngs[256])
     (out / "icon.icns").write_bytes(icns(pngs))
     (out / "icon.ico").write_bytes(ico(pngs))
+    # Raw RGBA for the Node web view binding, whose window icon API takes pixels, not a file.
+    (out / "icon-64.rgba").write_bytes(render(64))
     print("wrote icons to", out)
 
 
