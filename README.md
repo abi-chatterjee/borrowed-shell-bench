@@ -63,7 +63,7 @@ Things to know:
 ### Option B: build locally on the machine you will measure
 
 Prerequisites (versions used and pinned by the scripts are in docs/decisions.md):
-Python 3.11+ (3.13 recommended), Node.js 24, Go 1.24, Rust stable, and the Wails CLI
+Python 3.11+ (3.13 recommended), Node.js 24, Go 1.25, Rust stable, and the Wails CLI
 (`go install github.com/wailsapp/wails/v2/cmd/wails@v2.17.0`). On macOS also the Xcode
 command line tools. On Windows also WebView2 (present on Windows 11 and current Windows 10).
 
