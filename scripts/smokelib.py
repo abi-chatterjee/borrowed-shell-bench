@@ -49,11 +49,21 @@ def extract(zip_path, dest):
         subprocess.run(["unzip", "-q", str(zip_path), "-d", str(dest)], check=True)
 
 
+def read_plist(path):
+    """Wails writes its Info.plist without an <?xml ...?> declaration (it starts at <!DOCTYPE),
+    which macOS accepts but plistlib cannot auto-detect, so fall back to parsing it as XML."""
+    data = path.read_bytes()
+    try:
+        return plistlib.loads(data)
+    except plistlib.InvalidFileException:
+        return plistlib.loads(data, fmt=plistlib.FMT_XML)
+
+
 def launch_command(manifest, root):
     launch = manifest["launch"]
     target = Path(root) / launch["path"]
     if launch["kind"] == "app":
-        plist = plistlib.loads((target / "Contents" / "Info.plist").read_bytes())
+        plist = read_plist(target / "Contents" / "Info.plist")
         return [str(target / "Contents" / "MacOS" / plist["CFBundleExecutable"])]
     return [str(target)]
 
