@@ -1,0 +1,28 @@
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  display: flex; flex-direction: column;
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #1f2937; background: #f8fafc;
+}
+#layout { flex: 1; display: flex; min-height: 0; }
+#sidebar {
+  width: 240px; display: flex; flex-direction: column;
+  border-right: 1px solid #e2e8f0; background: #fff;
+}
+#new-note { margin: 8px; }
+#note-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1; }
+#note-list li { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
+#note-list li.selected { background: #dbeafe; }
+#note-list li .title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#note-list li .when { font-size: 12px; color: #64748b; }
+#editor { flex: 1; display: flex; flex-direction: column; padding: 12px; gap: 8px; min-width: 0; }
+#note-title { font-size: 18px; padding: 6px 8px; }
+#note-body { flex: 1; resize: none; padding: 8px; font: inherit; }
+#actions { display: flex; align-items: center; gap: 8px; }
+#status { color: #64748b; font-size: 12px; }
+button { padding: 6px 12px; cursor: pointer; }
+#footer {
+  padding: 4px 12px; font-size: 12px; color: #64748b;
+  border-top: 1px solid #e2e8f0; background: #fff;
+}

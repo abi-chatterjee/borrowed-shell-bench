@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "benchnotes"
+dynamic = ["version"]
+description = "Bench Notes - benchmark app for the Borrowed Shell pattern (Python variant)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+# Exact pin: the benchmark must be reproducible. pywebview brings its own
+# platform-specific dependencies (pyobjc on macOS, pythonnet on Windows).
+dependencies = ["pywebview==6.2.1"]
+
+[project.scripts]
+benchnotes = "benchnotes.cli:main"
+
+[tool.hatch.version]
+path = "src/benchnotes/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/benchnotes"]
+# src/benchnotes/frontend is copied in by build.sh and is not tracked in git;
+# list it explicitly so hatchling includes it despite .gitignore.
+artifacts = ["src/benchnotes/frontend/**"]

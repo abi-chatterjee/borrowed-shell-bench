@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bench Notes</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div id="layout">
+    <aside id="sidebar">
+      <button id="new-note" type="button">New note</button>
+      <ul id="note-list"></ul>
+    </aside>
+    <main id="editor">
+      <input id="note-title" type="text" placeholder="Title" autocomplete="off">
+      <textarea id="note-body" placeholder="Write something"></textarea>
+      <div id="actions">
+        <button id="save-note" type="button">Save</button>
+        <button id="delete-note" type="button">Delete</button>
+        <span id="status" role="status"></span>
+      </div>
+    </main>
+  </div>
+  <footer id="footer"></footer>
+  <script src="api/adapter.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

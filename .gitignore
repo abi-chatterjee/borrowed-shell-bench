@@ -1,0 +1,14 @@
+dist/
+build/
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+target/
+results/*.json
+results/summary.md
+results/*.csv
+!results/.gitkeep
+.scratch/
+*.log

@@ -1,0 +1,17 @@
+# Tracked with the placeholder @VERSION@; scripts/render.py fills it in the staged copy
+# that variants/tauri/build.* compiles. Release profile = Cargo defaults (no tuning).
+[package]
+name = "benchnotes-tauri"
+version = "@VERSION@"
+edition = "2021"
+description = "Bench Notes - Tauri v2 variant"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = "2.7"
+
+[dependencies]
+tauri = "2.12"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+uuid = { version = "1", features = ["v4"] }

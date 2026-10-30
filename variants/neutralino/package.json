@@ -1,0 +1,10 @@
+{
+  "name": "benchnotes-neutralino",
+  "version": "@VERSION@",
+  "private": true,
+  "description": "Bench Notes - Neutralinojs variant",
+  "devDependencies": {
+    "@neutralinojs/neu": "11.8.0",
+    "@neutralinojs/lib": "6.10.0"
+  }
+}

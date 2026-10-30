@@ -1,0 +1,21 @@
+{
+  "name": "benchnotes-electron",
+  "productName": "Bench Notes (electron)",
+  "version": "@VERSION@",
+  "description": "Bench Notes - Electron variant",
+  "main": "main.js",
+  "author": "Gritsa Ltd",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "45.0.0",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "com.gritsa.benchnotes.electron",
+    "productName": "Bench Notes (electron)",
+    "files": ["main.js", "preload.js", "store.js", "frontend/**/*", "package.json"],
+    "mac": { "icon": "icon.icns", "category": "public.app-category.productivity" },
+    "win": { "icon": "icon.ico" },
+    "linux": { "icon": "icon.png", "category": "Utility" }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "benchnotes-wails",
+  "outputfilename": "Bench Notes (wails)",
+  "frontend:install": "",
+  "frontend:build": "",
+  "info": {
+    "companyName": "Gritsa Ltd",
+    "productName": "Bench Notes (wails)",
+    "productVersion": "@VERSION@",
+    "copyright": "MIT"
+  }
+}

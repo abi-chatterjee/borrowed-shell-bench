@@ -1,0 +1,16 @@
+{
+  "name": "benchnotes",
+  "version": "1.0.0",
+  "description": "Bench Notes - benchmark app for the Borrowed Shell pattern (Node.js variant)",
+  "license": "MIT",
+  "private": false,
+  "bin": { "benchnotes": "bin/benchnotes.js" },
+  "files": ["bin", "src", "frontend", "icon.icns", "icon.ico", "README.md"],
+  "engines": { "node": ">=24" },
+  "dependencies": {
+    "@webviewjs/webview": "0.4.9"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}

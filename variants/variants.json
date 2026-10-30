@@ -1,0 +1,9 @@
+{
+  "electron":    {"title": "Electron",                         "transport": "electron",   "window": "bundled Chromium"},
+  "tauri":       {"title": "Tauri v2",                         "transport": "tauri",      "window": "system web view"},
+  "wails":       {"title": "Wails v2",                         "transport": "wails",      "window": "system web view"},
+  "neutralino":  {"title": "Neutralinojs",                     "transport": "neutralino", "window": "system web view"},
+  "pyinstaller": {"title": "PyInstaller + pywebview",          "transport": "http",       "window": "system web view"},
+  "bshell-py":   {"title": "Borrowed Shell (Python)",          "transport": "http",       "window": "system web view"},
+  "bshell-node": {"title": "Borrowed Shell (Node.js)",         "transport": "http",       "window": "system web view"}
+}
