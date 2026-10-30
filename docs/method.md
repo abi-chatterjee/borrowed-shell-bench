@@ -175,7 +175,7 @@ results and indicates the app left a process behind or the harness could not sto
 `bench/report.py` reports the median and interquartile range (Q1-Q3, linear interpolation)
 of the per-run values, per variant, per platform. A single value (one-off measurements such as
 the runtime-absent pass, which is run once by default) is printed without a range. With
-10 runs the IQR is a rough indicator, not a confidence interval. Runs that failed are
+5 runs the IQR is a rough indicator, not a confidence interval. Runs that failed are
 excluded from timing and memory statistics and counted in install success.
 
 The runs of one variant are executed back to back, not interleaved with other variants.

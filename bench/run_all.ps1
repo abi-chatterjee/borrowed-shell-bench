@@ -1,7 +1,7 @@
 # Windows: install the harness dependency into a private venv, then benchmark every built variant.
-#   bench\run_all.ps1 [-Runs 10]     (a quiet machine is required, see docs\method.md)
+#   bench\run_all.ps1 [-Runs 5]     (a quiet machine is required, see docs\method.md)
 # Reads dist\windows-x64\ (download the CI artifact first, or run scripts\build_all.ps1).
-param([int]$Runs = 10)
+param([int]$Runs = 5)
 $ErrorActionPreference = 'Stop'
 $Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $Venv = Join-Path $Root '.venv-bench'

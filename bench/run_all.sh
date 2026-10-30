@@ -1,10 +1,10 @@
 #!/bin/sh
 # macOS: install the harness dependency into a private venv, then benchmark every built variant.
-#   bench/run_all.sh [RUNS]          (default 10; a quiet machine is required, see docs/method.md)
+#   bench/run_all.sh [RUNS]          (default 5; a quiet machine is required, see docs/method.md)
 # Reads dist/macos-<arch>/ (download the CI artifact first, or run scripts/build_all.sh).
 set -eu
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-RUNS=${1:-10}
+RUNS=${1:-5}
 if [ ! -x "$ROOT/.venv-bench/bin/python" ]; then
     python3 -m venv "$ROOT/.venv-bench"
 fi

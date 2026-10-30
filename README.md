@@ -89,6 +89,12 @@ Shell builds also produce 1.0.1 packages for the update measurement). Output lan
 
 ## 2. Measure, on each machine, in this order
 
+CI already measures every variant on each GitHub-hosted runner (macOS arm64, macOS x64,
+Windows Server) after the build, and the `benchmark report` job publishes `summary.md` in the
+run summary and as the `benchmark-report` artifact. Hosted runners are shared VMs: use those
+numbers to compare variants on the same runner, not as absolute figures. Run the steps below
+only to measure on your own hardware.
+
 Do this on each of: macOS Intel, macOS Apple Silicon, Windows 10, Windows 11. Each run needs
 network access (the "runtime absent" pass downloads Python or Node, and the Borrowed Shell
 installers fetch packages).
@@ -99,16 +105,15 @@ busy (override with `--no-quiet-check`, and expect noisy results).
 
 1. Get the repository and the matching `dist/<os>-<arch>/` onto the machine (option A
    download, or option B build).
-2. Run the harness. About 10 runs x 7 variants x (about 1.5 minutes of idle wait per run);
-   plan on a couple of hours.
+2. Run the harness: 5 runs x 7 variants with 20 s of idle wait each; about 30 minutes.
 
    macOS:
    ```sh
-   bench/run_all.sh 10                    # writes results/<host>-<arch>.json
+   bench/run_all.sh 5                     # writes results/<host>-<arch>.json
    ```
    Windows:
    ```powershell
-   powershell -NoProfile -ExecutionPolicy Bypass -File bench\run_all.ps1 -Runs 10   # writes results\<host>-windows.json
+   powershell -NoProfile -ExecutionPolicy Bypass -File bench\run_all.ps1 -Runs 5    # writes results\<host>-windows.json
    ```
    Both create a private venv `.venv-bench` and install only `psutil`.
 3. Copy the `results/*.json` files from every machine into one `results/` folder.

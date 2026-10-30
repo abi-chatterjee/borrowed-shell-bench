@@ -122,6 +122,21 @@ jobs:
         run: |
           $env:PATH = (go env GOPATH) + '\bin;' + $env:PATH
           .\scripts\build_all.ps1
+      # Measure on the hosted runner itself. Hosted runners are shared VMs, so the numbers are
+      # for comparing variants on the same runner, not absolute figures. A failure here must
+      # not hide a good build, so the step may fail without failing the job.
+      - name: Benchmark on this runner (5 runs, 20 s idle)
+        continue-on-error: true
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r bench/requirements.txt
+          python bench/run.py --variants all --runs 5 --idle-seconds 20 --no-quiet-check --out results/ci-${{ matrix.label }}.json
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: results-${{ matrix.label }}
+          path: results/ci-${{ matrix.label }}.json
+          if-no-files-found: warn
+          retention-days: 90
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -129,6 +144,33 @@ jobs:
           path: dist/${{ matrix.label }}/
           if-no-files-found: error
           retention-days: 30
+
+  report:
+    name: benchmark report
+    needs: build
+    if: always() && needs.build.result != 'skipped'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: results-*
+          path: results
+          merge-multiple: true
+      - name: Summarise
+        run: |
+          ls -l results
+          python -m pip install --quiet --disable-pip-version-check -r bench/requirements.txt
+          python bench/report.py results/ci-*.json --out results/summary.md
+          cat results/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-report
+          path: results/
+          retention-days: 90
 
   dist:
     name: collect dist

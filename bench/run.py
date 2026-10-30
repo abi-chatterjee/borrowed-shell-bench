@@ -305,10 +305,10 @@ def absent_pass(variant, manifest, dist_dir, args, scratch_root):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--variants", default="all", help="'all' or a comma separated list")
-    ap.add_argument("--runs", type=int, default=10)
+    ap.add_argument("--runs", type=int, default=5)
     ap.add_argument("--out", required=True, help="results JSON path")
     ap.add_argument("--dist", help="dist directory (default dist/<os>-<arch>)")
-    ap.add_argument("--idle-seconds", type=int, default=60)
+    ap.add_argument("--idle-seconds", type=int, default=20)
     ap.add_argument("--ready-timeout", type=int, default=60)
     ap.add_argument("--absent-runs", type=int, default=1, help="runtime-absent passes for installer variants (0 = skip)")
     ap.add_argument("--scratch", help="scratch directory root (default: a temp dir)")
