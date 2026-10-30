@@ -12,3 +12,5 @@ results/*.csv
 !results/.gitkeep
 .scratch/
 *.log
+.ci-logs/
+.DS_Store

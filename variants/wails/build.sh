@@ -33,7 +33,8 @@ rm -rf "$PACK"
 mkdir -p "$PACK"
 case $PLATFORM in
     macos-*)
-        cp -R "build/bin/Bench Notes (wails).app" "$PACK/"
+        # Wails names the bundle after wails.json "name" (benchnotes-wails), not outputfilename.
+        cp -R "build/bin/benchnotes-wails.app" "$PACK/Bench Notes (wails).app"
         LK=app; LP="Bench Notes (wails).app" ;;
     windows-*)
         cp "build/bin/Bench Notes (wails).exe" "$PACK/"

@@ -174,7 +174,10 @@ function Install-BenchNotes {
         $lnkPath = Join-Path $appsDir 'Bench Notes (bshell-node).lnk'
         New-Shortcut -Path $lnkPath -Target $nodeExe -Arguments 'bin\benchnotes.js ui --detach' -Icon $icon -WorkDir $pkgDir
         $readBack = (New-Object -ComObject WScript.Shell).CreateShortcut($lnkPath)
-        if ($readBack.TargetPath -ne $nodeExe) { throw 'shortcut verification failed' }
+        # Compare files, not strings: Windows may store the long form of a path given in 8.3 form.
+        $fso = New-Object -ComObject Scripting.FileSystemObject
+        if (-not $fso.FileExists($readBack.TargetPath)) { throw 'shortcut verification failed' }
+        if ($fso.GetFile($readBack.TargetPath).ShortPath -ne $fso.GetFile($nodeExe).ShortPath) { throw 'shortcut verification failed' }
         Write-Log ('shortcut: ' + $lnkPath)
 
         # ---- 4. self-test ----------------------------------------------------
