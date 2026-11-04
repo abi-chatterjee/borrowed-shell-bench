@@ -161,3 +161,7 @@ installers a user would run. They are configured with environment variables
 `BENCHNOTES_FORCE_RUNTIME_INSTALL`, ...; each script lists them at the top), which is how the
 harness installs into a scratch location. Both build a native shell: a `.app` bundle on
 macOS, a Start-menu shortcut on Windows.
+
+## Licence
+
+Apache License 2.0 (see `LICENSE` and `NOTICE`). To cite this work, see `CITATION.cff` or https://doi.org/10.5281/zenodo.23954438.

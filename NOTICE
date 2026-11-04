@@ -1,0 +1,6 @@
+Borrowed Shell benchmark
+Copyright 2026 Abhishek Chatterjee (Gritsa Ltd)
+
+This product includes reference implementations of the Borrowed Shell desktop
+application pattern, described in the paper "The Borrowed Shell Pattern".
+Cite: https://doi.org/10.5281/zenodo.23954438
