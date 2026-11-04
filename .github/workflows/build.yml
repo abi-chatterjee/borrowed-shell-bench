@@ -125,7 +125,10 @@ jobs:
       # Measure on the hosted runner itself. Hosted runners are shared VMs, so the numbers are
       # for comparing variants on the same runner, not absolute figures. A failure here must
       # not hide a good build, so the step may fail without failing the job.
+      # Windows only: on GitHub-hosted macOS VMs the harness cannot read process memory and
+      # hangs until the timeout, so macOS is measured on physical machines (docs/method.md).
       - name: Benchmark on this runner (5 runs, 20 s idle)
+        if: runner.os == 'Windows'
         continue-on-error: true
         timeout-minutes: 45
         run: |

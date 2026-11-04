@@ -77,3 +77,11 @@ test('cli argument parsing', () => {
   assert.equal(a.opts['apps-dir'], '/a');
   assert.ok(a.flags.has('skip-backend'));
 });
+
+test('update uses the npm next to the running node, not the one on PATH', () => {
+  const path = require('node:path');
+  const name = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+  const exec = path.join('/opt/private-node/bin', process.platform === 'win32' ? 'node.exe' : 'node');
+  assert.equal(update.npmCommand(exec, () => true), path.join('/opt/private-node/bin', name));
+  assert.equal(update.npmCommand(exec, () => false), name);
+});

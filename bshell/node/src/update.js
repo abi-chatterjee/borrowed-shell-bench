@@ -9,9 +9,13 @@ function prefixDir() {
   return path.dirname(nm);
 }
 
-function npmCommand() {
-  // npm sits next to node in the official distributions we install.
-  return process.platform === 'win32' ? 'npm.cmd' : 'npm';
+function npmCommand(execPath = process.execPath, exists = require('node:fs').existsSync) {
+  // Use the npm that ships next to the node running this app (the private runtime the
+  // installer chose). A bare 'npm' resolves through PATH and can belong to an older system
+  // Node, which installs the update and then fails.
+  const name = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+  const sibling = path.join(path.dirname(execPath), name);
+  return exists(sibling) ? sibling : name;
 }
 
 function update({ tarball, run = spawnSync, out = console.log, prefix = prefixDir() } = {}) {
@@ -26,4 +30,4 @@ function update({ tarball, run = spawnSync, out = console.log, prefix = prefixDi
   return r.status === 0 ? 0 : (r.status || 1);
 }
 
-module.exports = { update, prefixDir };
+module.exports = { update, prefixDir, npmCommand };

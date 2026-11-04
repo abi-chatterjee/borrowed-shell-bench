@@ -14,3 +14,5 @@ results/*.csv
 *.log
 .ci-logs/
 .DS_Store
+!results/paper/
+!results/paper/*.json
