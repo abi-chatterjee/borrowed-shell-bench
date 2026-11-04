@@ -61,6 +61,40 @@ def new_processes(before, exclude_pids=()):
     return found
 
 
+# Out-of-process web engines started by the app but not parented to it (macOS WebKit XPC
+# services are children of launchd). Windows WebView2 processes are the app's descendants.
+ENGINE_HELPER_PREFIXES = ("com.apple.WebKit.", "msedgewebview2")
+
+
+def app_processes(candidates, scratch, markers=("benchnotes",)):
+    """The subset of `candidates` that belongs to the app under test: processes whose
+    executable or command line points into its scratch install (or names the app), their
+    descendants, and web engine helpers. Everything else that happened to start on the
+    machine meanwhile is ignored, and is never measured or stopped."""
+    roots = {str(scratch), os.path.realpath(str(scratch))}
+    mine = {}
+    for p in candidates:
+        try:
+            text = " ".join([p.exe() or ""] + p.cmdline())
+        except (psutil.NoSuchProcess, psutil.AccessDenied, OSError):
+            continue  # not inspectable by us, so not ours
+        if any(r in text for r in roots) or any(m in text.lower() for m in markers):
+            mine[p.pid] = p
+    for p in list(mine.values()):
+        try:
+            for c in p.children(recursive=True):
+                mine.setdefault(c.pid, c)
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
+    for p in candidates:
+        try:
+            if p.name().lower().startswith(tuple(x.lower() for x in ENGINE_HELPER_PREFIXES)):
+                mine.setdefault(p.pid, p)
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
+    return list(mine.values())
+
+
 def macos_footprint(pid):
     """Physical footprint in bytes from /usr/bin/footprint, or None."""
     if sys.platform != "darwin" or not shutil.which("footprint"):

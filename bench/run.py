@@ -141,10 +141,10 @@ def launch_once(target, scratch, idle_seconds, ready_timeout, take_memory):
             out["cold_start_ms"] = t_ready - t0
             if take_memory:
                 time.sleep(idle_seconds)
-                procs = measure.new_processes(before, own)
+                procs = measure.app_processes(measure.new_processes(before, own), scratch)
                 out["memory"] = measure.memory_of(procs)
     finally:
-        procs = procs or measure.new_processes(before, own)
+        procs = procs or measure.app_processes(measure.new_processes(before, own), scratch)
         measure.stop_processes(procs)
         time.sleep(0.5)
         out["leftover"] = len(measure.still_running(procs))

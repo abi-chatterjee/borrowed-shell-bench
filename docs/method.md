@@ -98,10 +98,16 @@ verify nothing is left, then update. Each run starts from an empty scratch direc
 
 - Time from the call that launches the app to the epoch milliseconds in the ready file.
 - Launch is done the way a user would: `open -n <app>` for a macOS bundle, running the
-  exe or the Start-menu shortcut on Windows. Because `open` and shortcuts cannot carry
-  environment variables, on macOS the harness sets `BENCH_READY_FILE` and `BENCH_DATA_DIR`
-  with `launchctl setenv` in the user's session for the duration of the launch and removes
-  them afterwards. On Windows the harness sets them in its own environment before
+  exe or the Start-menu shortcut on Windows. LaunchServices starts a bundle with a clean
+  environment, so on macOS the harness passes `BENCH_READY_FILE` and `BENCH_DATA_DIR` with
+  `open --env`. (An earlier version used `launchctl setenv`, which leaked into the whole login session.)
+- Only the app's own processes are measured and stopped: processes whose executable or
+  command line points into the run's scratch install, their descendants, and web engine
+  helpers (`com.apple.WebKit.*`, `msedgewebview2`). An earlier version stopped every process
+  that started during the measurement, which on a GitHub-hosted macOS runner killed system
+  services and hung the run; it also counted an unrelated `svchost.exe` on Windows. Helper
+  processes of another WebKit app started during a measurement would still be counted, so
+  close other apps when measuring on your own machine. On Windows the harness sets them in its own environment before
   starting the process.
 - "First launch" is the first start after install (cold file cache for the new files,
   Gatekeeper / SmartScreen checks if they happen, WebView2 or WKWebView first-use setup).

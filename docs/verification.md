@@ -51,7 +51,7 @@ and docs.github.com were not (HTTP 403). No workaround was attempted.
 | macOS `.app` assembly and launch for bshell-py and bshell-node (`shell_macos`) | No macOS; only the Linux layout test ran |
 | Windows builds of every variant (`build.ps1`, `common.ps1`, `py_wheel.ps1`) | No Windows |
 | `install.ps1` for both Borrowed Shell packages, Windows shortcut creation, the Windows preflight (WebView2, .NET 4.7.2), `pythonw` log redirection, node `--detach` | No Windows; PowerShell 5.1 specifically has never been run. Static checks and a PowerShell 7 parse only |
-| Windows and macOS paths of `bench/` (`open -n`, `launchctl setenv`, `footprint`, shortcut launch, `os.startfile`, `run_all.ps1`) | No macOS or Windows. The footprint parser is unit-tested on a sample string, not real output |
+| Windows and macOS paths of `bench/` (`open -n --env`, `footprint`, shortcut launch, `os.startfile`, `run_all.ps1`) | No macOS or Windows. The footprint parser is unit-tested on a sample string, not real output |
 | macOS physical-footprint collection | Needs macOS |
 | `.github/workflows/build.yml` job logic | Syntax checked by actionlint; no GitHub Actions run. Runner labels (`macos-15`, `macos-15-intel`, `windows-2025`) come from the GitHub changelog and web search, not from the runner reference page, which was unreachable. Action versions pinned in the file (`checkout@v4`, `setup-python@v5`, `setup-node@v4`, `setup-go@v5`, `upload-artifact@v4`, `download-artifact@v4`) were not verified against the marketplace |
 | The Windows and macOS smoke checks in CI | Same as above; also on those hosts the Electron and Tauri smoke checks rely on their headless self-test modes, which ran on Linux only |

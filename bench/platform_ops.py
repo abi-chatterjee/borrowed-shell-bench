@@ -2,9 +2,8 @@
 
 The harness launches the way a user would: `open -n` on a macOS .app, the Start-menu
 shortcut (or the exe) on Windows. Environment for the app (BENCH_READY_FILE,
-BENCH_DATA_DIR) cannot be passed through `open`, so on macOS it is set in the user's
-launchd session with `launchctl setenv` for the duration of the launch and removed
-afterwards. Linux support exists only so the harness can be tested in a Linux sandbox
+BENCH_DATA_DIR) goes through `open --env` on macOS, since LaunchServices otherwise starts
+the app with a clean environment. Linux support exists only so the harness can be tested in a Linux sandbox
 (fake apps, optionally real apps under xvfb); it is not a benchmark platform."""
 import os
 import shutil
@@ -23,23 +22,18 @@ class Launcher:
 
     def __init__(self, env):
         self.env = dict(env)
-        self._set = []
         self._saved = {}
 
     def __enter__(self):
-        if sys.platform == "darwin":
-            for k, v in self.env.items():
-                subprocess.run(["launchctl", "setenv", k, v], check=True)
-                self._set.append(k)
-        elif sys.platform == "win32":
+        # macOS gets the environment per launch through `open --env` (see launch); launchctl setenv
+        # depends on the caller sharing the GUI launchd session, and leaked into the whole login session.
+        if sys.platform == "win32":
             for k, v in self.env.items():  # os.startfile inherits this process's environment
                 self._saved[k] = os.environ.get(k)
                 os.environ[k] = v
         return self
 
     def __exit__(self, *exc):
-        for k in self._set:
-            subprocess.run(["launchctl", "unsetenv", k], check=False)
         for k, old in self._saved.items():
             if old is None:
                 os.environ.pop(k, None)
@@ -53,7 +47,10 @@ class Launcher:
         child_env = dict(os.environ, **self.env)
         if kind == "app":  # macOS bundle
             t0 = now_ms()
-            subprocess.run(["open", "-n", target["path"]], check=True)
+            # LaunchServices starts the app with a clean environment; --env passes ours explicitly.
+            env_args = [a for k, v in self.env.items() for a in ("--env", "%s=%s" % (k, v))]
+            # A timeout: if LaunchServices is wedged, fail this launch instead of hanging the run.
+            subprocess.run(["open", "-n"] + env_args + [target["path"]], check=True, timeout=60)
         elif kind == "lnk":  # Windows Start-menu shortcut
             t0 = now_ms()
             os.startfile(target["path"])  # noqa: Windows only

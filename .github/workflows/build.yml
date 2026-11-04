@@ -127,6 +127,7 @@ jobs:
       # not hide a good build, so the step may fail without failing the job.
       - name: Benchmark on this runner (5 runs, 20 s idle)
         continue-on-error: true
+        timeout-minutes: 45
         run: |
           python -m pip install --quiet --disable-pip-version-check -r bench/requirements.txt
           python bench/run.py --variants all --runs 5 --idle-seconds 20 --no-quiet-check --out results/ci-${{ matrix.label }}.json

@@ -135,7 +135,13 @@ def platform_label(host):
     os_name, arch = host.get("os"), host.get("arch", "")
     arch = {"x86_64": "x64", "AMD64": "x64", "amd64": "x64", "aarch64": "arm64"}.get(arch, arch)
     if os_name == "windows":
-        m = re.search(r"10\.0\.(\d+)", host.get("os_version", ""))
+        osv = host.get("os_version", "")
+        # Server and client share build numbers (26100 is both Windows 11 24H2 and Server
+        # 2025), so check for Server before guessing the client version from the build.
+        server = re.search(r"(\d{4})Server", osv)
+        if server:
+            return "Windows Server %s %s" % (server.group(1), arch)
+        m = re.search(r"10\.0\.(\d+)", osv)
         ver = "11" if m and int(m.group(1)) >= 22000 else "10"
         return "Windows %s %s" % (ver, arch)
     if os_name == "macos":
