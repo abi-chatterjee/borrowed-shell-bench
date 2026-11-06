@@ -33,6 +33,7 @@ frontend/              shared UI + api/<transport>.js adapters (the only per-var
 variants/<id>/         one folder per variant: build.sh, build.ps1, smoke.py, sources
 bshell/py/             wheel source, install.sh, install.ps1, macOS/Windows shell builders
 bshell/node/           npm package source, install.sh, install.ps1, shell builders
+skills/borrowed-shell/ agent skill (SKILL.md + references) for building the pattern into other apps
 scripts/               build helpers, build_all.sh / build_all.ps1
 bench/                 run.py, report.py, run_all.sh, run_all.ps1, tests/
 docs/                  method, decisions, verification
@@ -161,6 +162,19 @@ installers a user would run. They are configured with environment variables
 `BENCHNOTES_FORCE_RUNTIME_INSTALL`, ...; each script lists them at the top), which is how the
 harness installs into a scratch location. Both build a native shell: a `.app` bundle on
 macOS, a Start-menu shortcut on Windows.
+
+## Agent skill
+
+`skills/borrowed-shell/` packages the pattern as an agent skill for Claude Code and other agents
+that read `SKILL.md` folders: a fit check, the build order, the hard rules learned from the
+reference implementations, and per-platform reference notes. Install it with:
+
+```sh
+git clone --depth 1 https://github.com/abi-chatterjee/borrowed-shell-bench /tmp/borrowed-shell-bench
+mkdir -p ~/.claude/skills && cp -R /tmp/borrowed-shell-bench/skills/borrowed-shell ~/.claude/skills/
+```
+
+See [skills/README.md](skills/README.md) for project-level install and usage.
 
 ## Licence
 
